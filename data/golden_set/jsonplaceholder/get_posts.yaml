@@ -1,0 +1,66 @@
+endpoint_id: jsonplaceholder_get_posts
+api: jsonplaceholder
+created_date: '2024-11-02'
+
+source_url: https://jsonplaceholder.typicode.com/
+documentation_snapshot: |
+  GET /posts
+  Returns all posts (100 items)
+  Each post has: userId, id, title, body
+
+expected_spec:
+  openapi: '3.0.0'
+  info:
+    title: JSONPlaceholder API
+    version: '1.0.0'
+  servers:
+    - url: https://jsonplaceholder.typicode.com
+  paths:
+    /posts:
+      get:
+        summary: Get all posts
+        description: Returns array of 100 posts
+        operationId: getPosts
+        responses:
+          '200':
+            description: Successful response
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      userId:
+                        type: integer
+                        description: User ID who created the post
+                      id:
+                        type: integer
+                        description: Post ID
+                      title:
+                        type: string
+                        description: Post title
+                      body:
+                        type: string
+                        description: Post content
+                    required:
+                      - userId
+                      - id
+                      - title
+                      - body
+
+validation_notes: |
+  Tested: 2024-11-02
+  Always returns 100 posts
+  All posts have all 4 fields
+  No query parameters
+  Always returns 200
+
+eval_criteria:
+  must_find_endpoint: true
+  must_have_fields:
+    - userId
+    - id
+    - title
+    - body
+  no_hallucinations: true
